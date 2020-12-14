@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "132756865160",
+    "firebase_url": "https://doctorjiyo-72fcd.firebaseio.com",
+    "project_id": "doctorjiyo-72fcd",
+    "storage_bucket": "doctorjiyo-72fcd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132756865160:android:9d5abe100811f9b95b1f3d",
+        "android_client_info": {
+          "package_name": "com.doctorjiyo.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132756865160-632b1prsgve6kkjrued4k1j0ht19kmhl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doctorjiyo.app",
+            "certificate_hash": "90220eba1a09145a1c321b80b49f2c76ddd4a666"
+          }
+        },
+        {
+          "client_id": "132756865160-g6kl7llv83i11cqit2b0g237crqakstv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwRRRqSAhk4_FwN4bxx0KxQYrVOTFmOSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132756865160-n85sncj2bn1gvku6ij3s7m2k3el8mpgi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

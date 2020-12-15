@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^4.3.0
+  nb_utils:
   awesome_card: 1.1.0
   intro_slider:
   font_awesome_flutter:

@@ -41,7 +41,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> login(String email, String password) async {
-    var url = supervisor + '/?username=$email&password=$password';
+    var url = loginapi + '/?username=$email&password=$password';
 
     try {
       final response = await http.get(url);

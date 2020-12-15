@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../loginandsplash/login_screen.dart';
 import '../constants.dart';
 
-import 'account_screen.dart';
+import 'projectlist.dart';
 import '../providers/auth.dart';
 
 class Supervisor extends StatefulWidget {
@@ -40,7 +40,7 @@ class _TabsScreenState extends State<Supervisor> {
 
       if (_isAuth) {
         _pages = [
-          AccountScreen(),
+          projectlist(),
         ];
       }
     }
@@ -77,7 +77,7 @@ class _TabsScreenState extends State<Supervisor> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Supervisor"),
+        title: Text(Provider.of<Auth>(context, listen: false).role),
         backgroundColor: Colors.lightBlue,
         actions: <Widget>[
           IconButton(
@@ -136,10 +136,13 @@ class _TabsScreenState extends State<Supervisor> {
                 title: Text("Profile"),
                 trailing: Icon(Icons.arrow_forward),
                 onTap: () {
-                  AccountScreen();
+                  projectlist();
                 }),
             ListTile(
               title: Text("Attendance"),
+              onTap: () {
+                projectlist();
+              },
               trailing: Icon(Icons.arrow_forward),
             ),
             ListTile(
@@ -152,6 +155,11 @@ class _TabsScreenState extends State<Supervisor> {
             ),
             ListTile(
               title: Text("Logout"),
+              onTap: () {
+                Provider.of<Auth>(context, listen: false).logout().then((_) =>
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (r) => false));
+              },
               trailing: Icon(Icons.arrow_forward),
             ),
           ],

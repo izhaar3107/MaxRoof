@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-
 const BASE_URL = 'http://maxroof.theiis.com/api';
-const supervisor = BASE_URL + '/loginapi';
+const projectlistapi = 'http://maxroof.theiis.com/api';
+
+const loginapi = BASE_URL + '/loginapi';
+const baseURL = '';
+const noInternetMsg = 'Oops No Internet';
+
+const msg = 'message';
+const status = 'status';
+const int timeoutDuration = 30;
 
 // list of colors that we use in our app
 const kBackgroundColor = Color(0xFFFEFFFF); //White Background
@@ -46,4 +53,3 @@ const kDefaultShadow = BoxShadow(
   blurRadius: 20,
   color: Colors.black12, // Black color with 12% opacity
 );
-

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 const BASE_URL = 'http://maxroof.theiis.com/api';
-const projectlistapi = 'http://maxroof.theiis.com/api';
 
 const loginapi = BASE_URL + '/loginapi';
+const companyapi = BASE_URL + '/CompanyAPI';
+const projectlistapi = BASE_URL + '/ProjectListAPI?';
+const employelist = BASE_URL + '/EmployeesListAPI?';
+
 const baseURL = '';
 const noInternetMsg = 'Oops No Internet';
 

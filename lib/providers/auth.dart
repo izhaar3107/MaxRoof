@@ -13,6 +13,7 @@ import 'dart:io';
 class Auth with ChangeNotifier {
   String _session;
   String _role;
+  String _databasename;
 
   User _user;
 
@@ -36,12 +37,20 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String get databasename {
+    if (_databasename != null) {
+      return _databasename;
+    }
+    return null;
+  }
+
   User get user {
     return _user;
   }
 
-  Future<void> login(String email, String password) async {
-    var url = loginapi + '/?username=$email&password=$password';
+  Future<void> login(String email, String password, String DatabaseName) async {
+    var url = loginapi +
+        '/?username=$email&password=$password&DatabaseName=$DatabaseName';
 
     try {
       final response = await http.get(url);
@@ -54,6 +63,7 @@ class Auth with ChangeNotifier {
       if (responseData['success'] == 'true') {
         _session = responseData['pkEmpId'];
         _role = "Supervisor";
+        _databasename = "$DatabaseName";
 
         final loadedUser = User(
           userId: responseData['pkEmpId'],
@@ -68,6 +78,7 @@ class Auth with ChangeNotifier {
           'token': _session,
           'user': jsonEncode(_user),
           'role': _role,
+          'databasename': _databasename,
         });
         prefs.setString('userData', userData);
         print(userData);
@@ -89,6 +100,7 @@ class Auth with ChangeNotifier {
 
     _session = extractedUserData['token'];
     _role = extractedUserData['role'];
+    _databasename = extractedUserData['databasename'];
 
     // print(jsonDecode(extractedUserData['user']));
     Map userMap = jsonDecode(extractedUserData['user']);
@@ -101,6 +113,8 @@ class Auth with ChangeNotifier {
 
   Future<void> logout() async {
     _session = null;
+    _role = null;
+    _databasename = null;
     // _user = null;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();

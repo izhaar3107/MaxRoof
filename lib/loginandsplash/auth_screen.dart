@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+
 import '../SuperVisor/models/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../SuperVisor/models/http_exception.dart';
 import '../constants.dart';
+import 'package:erp/SuperVisor/models/model.dart';
 
 enum AuthMode { Signup, Login }
 
@@ -77,6 +81,7 @@ class _AuthCardState extends State<AuthCard> {
   Map<String, String> _authData = {
     'email': '',
     'password': '',
+    'DatabaseName': '',
   };
   var _isLoading = false;
   final _passwordController = TextEditingController();
@@ -94,9 +99,7 @@ class _AuthCardState extends State<AuthCard> {
     try {
       // Log user in
       await Provider.of<Auth>(context, listen: false).login(
-        _authData['email'],
-        _authData['password'],
-      );
+          _authData['email'], _authData['password'], _authData['DatabaseName']);
 
       if (Provider.of<Auth>(context, listen: false).role == 'role1') {
         Navigator.pushNamedAndRemoveUntil(context, '/admin', (r) => false);
@@ -149,6 +152,23 @@ class _AuthCardState extends State<AuthCard> {
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (value) {
                   _authData['email'] = value;
+                },
+              ),
+              DropdownSearch<companymodel>(
+                label: "Select Company",
+                onFind: (String filter) async {
+                  var response = await Dio().get(
+                    companyapi,
+                    queryParameters: {"DatabaseName": filter},
+                  );
+                  var models = companymodel.fromJsonList(response.data);
+                  return models;
+                },
+                onChanged: (companymodel data) {
+                  print(data);
+                },
+                onSaved: (companymodel data) {
+                  _authData['DatabaseName'] = data.toString();
                 },
               ),
               TextFormField(

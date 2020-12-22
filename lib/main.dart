@@ -1,3 +1,4 @@
+import 'package:erp/SuperVisor/providers/projectlist.dart';
 import 'package:erp/loginandsplash/intro.dart';
 
 import 'utilities/splash.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, projectprovider>(
+          create: (ctx) => projectprovider(),
+          update: (ctx, auth, prevoiusCourses) => projectprovider(),
         ),
       ],
       child: Consumer<Auth>(

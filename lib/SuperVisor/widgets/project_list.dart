@@ -36,7 +36,7 @@ class project_list extends StatelessWidget {
         // height: 400,
         child: Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(30),
           ),
           elevation: 4,
           child: Column(
@@ -156,14 +156,10 @@ class HomePageState extends State<second> {
                 return Container(
                   margin: EdgeInsets.all(8.0),
                   child: Card(
-                    color: Colors.blue[50],
                     child: Container(
                       width: double.infinity,
                       // height: 400,
                       child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
                         elevation: 4,
                         child: Column(
                           children: <Widget>[

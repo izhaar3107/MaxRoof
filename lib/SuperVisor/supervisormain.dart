@@ -1,171 +1,84 @@
-import 'package:flutter/material.dart';
+import 'package:erp/SuperVisor/dashboard.dart';
+import 'package:erp/SuperVisor/projectlist.dart';
+import 'package:erp/SuperVisor/advance.dart';
+import 'package:erp/providers/auth.dart';
 import 'package:provider/provider.dart';
-import '../loginandsplash/login_screen.dart';
-import '../constants.dart';
 
-import 'projectlist.dart';
-import '../providers/auth.dart';
+import 'package:flutter/material.dart';
 
-class Supervisor extends StatefulWidget {
-  @override
-  _TabsScreenState createState() => _TabsScreenState();
+class DrawerItem {
+  String title;
+  IconData icon;
+  DrawerItem(this.title, this.icon);
 }
 
-class _TabsScreenState extends State<Supervisor> {
-  List<Widget> _pages = [
-    LoginScreen(),
-    LoginScreen(),
+class Supervisor extends StatefulWidget {
+  final drawerItems = [
+    new DrawerItem("Profile", Icons.rss_feed),
+    new DrawerItem("Attendance", Icons.local_pizza),
+    new DrawerItem("Advance", Icons.info),
+    new DrawerItem("Logout", Icons.info)
   ];
-  var _isInit = true;
-  var _isLoading = false;
-
-  int _selectedPageIndex = 0;
-  bool _isSearching = false;
-  final searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    // Provider.of<Auth>(context).tryAutoLogin().then((_) {});
+  State<StatefulWidget> createState() {
+    return new HomePageState();
   }
+}
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
+class HomePageState extends State<Supervisor> {
+  int _selectedDrawerIndex = 0;
 
-      final _isAuth = Provider.of<Auth>(context, listen: false).isAuth;
-
-      if (_isAuth) {
-        _pages = [
-          projectlist(),
-        ];
-      }
+  _getDrawerItemWidget(int pos) {
+    switch (pos) {
+      case 0:
+        return new dashboard();
+      case 1:
+        return new projectlist();
+      case 2:
+        return new advance();
+      case 3:
+        return Provider.of<Auth>(context, listen: false).logout().then((_) =>
+            Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false));
+      default:
+        return new Text("Error");
     }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
-  void _handleSubmitted(String value) {
-    final searchText = searchController.text;
-    if (searchText.isEmpty) {
-      return;
-    }
-
-    searchController.clear();
-
-    // print(searchText);
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
-  }
-
-  void _showFilterModal(BuildContext ctx) {
-    showModalBottomSheet(
-      context: ctx,
-      isScrollControlled: true,
-      builder: (_) {},
-    );
+  _onSelectItem(int index) {
+    setState(() => _selectedDrawerIndex = index);
+    Navigator.of(context).pop(); // close the drawer
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(Provider.of<Auth>(context, listen: false).role),
-        backgroundColor: Colors.lightBlue,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                color: kSecondaryColor,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isSearching = !_isSearching;
-                });
-              }),
-        ],
+    var drawerOptions = <Widget>[];
+    for (var i = 0; i < widget.drawerItems.length; i++) {
+      var d = widget.drawerItems[i];
+      drawerOptions.add(new ListTile(
+        leading: new Icon(d.icon),
+        title: new Text(d.title),
+        selected: i == _selectedDrawerIndex,
+        onTap: () => _onSelectItem(i),
+      ));
+    }
+
+    return new Scaffold(
+      appBar: new AppBar(
+        // here we display the title corresponding to the fragment
+        // you can instead choose to have a static title
+        title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
       ),
-      drawer: Drawer(
-        child: ListView(
+      drawer: new Drawer(
+        child: new Column(
           children: <Widget>[
-            FutureBuilder(
-              builder: (ctx, dataSnapshot) {
-                if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  if (dataSnapshot.error != null) {
-                    //error
-                    return Center(
-                      child: Text('Error Occured'),
-                    );
-                  } else {
-                    return Consumer<Auth>(builder: (context, authData, child) {
-                      final user = authData.user;
-                      return SingleChildScrollView(
-                        child: Container(
-                          width: double.infinity,
-                          child: UserAccountsDrawerHeader(
-                            accountEmail: Text(""),
-                            currentAccountPicture: CircleAvatar(
-                              backgroundColor: Theme.of(context).platform ==
-                                      TargetPlatform.iOS
-                                  ? Colors.blue
-                                  : Colors.white,
-                              child: CircleAvatar(
-                                radius: 50,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    });
-                  }
-                }
-              },
-            ),
-            ListTile(
-                title: Text("Profile"),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  projectlist();
-                }),
-            ListTile(
-              title: Text("Attendance"),
-              onTap: () {
-                projectlist();
-              },
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Advance"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Downloads"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Logout"),
-              onTap: () {
-                Provider.of<Auth>(context, listen: false).logout().then((_) =>
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (r) => false));
-              },
-              trailing: Icon(Icons.arrow_forward),
-            ),
+            new UserAccountsDrawerHeader(
+                accountName: new Text(""), accountEmail: null),
+            new Column(children: drawerOptions)
           ],
         ),
       ),
-      body: _pages[_selectedPageIndex],
+      body: _getDrawerItemWidget(_selectedDrawerIndex),
     );
   }
 }

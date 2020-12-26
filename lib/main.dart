@@ -1,3 +1,4 @@
+import 'package:erp/SuperVisor/dashboard.dart';
 import 'package:erp/SuperVisor/providers/projectlist.dart';
 import 'package:erp/loginandsplash/intro.dart';
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
                     '/supervisor': (ctx) => Supervisor(),
                     '/splash': (ctx) => splash(),
                     '/intro': (ctx) => OnboardingScreen(),
+                    '/dashboard': (ctx) => dashboard(),
                     AuthScreen.routeName: (ctx) => AuthScreen(),
                     LoginScreen.routeName: (ctx) => LoginScreen(),
                   })),

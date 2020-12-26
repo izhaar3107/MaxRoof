@@ -1,6 +1,10 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:erp/SuperVisor/attendance.dart';
 import 'package:erp/constants.dart';
+import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/projectlist.dart';
@@ -184,6 +188,15 @@ class HomePageState extends State<second> {
                                   ),
 
                                   ListTile(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => attendance1(
+                                              text: data[index]["pkEmpId"],
+                                            ),
+                                          ));
+                                    },
                                     title: Customtext(
                                       text: 'Employee Name:' +
                                           data[index]["Employee"],

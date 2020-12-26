@@ -35,6 +35,41 @@ class companymodel {
   String toString() => name;
 }
 
+class attendancemodel {
+  final String id;
+  final String name;
+
+  attendancemodel({this.id, this.name});
+
+  factory attendancemodel.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
+    return attendancemodel(
+      id: json["Id"],
+      name: json["TempFields"],
+    );
+  }
+
+  static List<attendancemodel> fromJsonList(List list) {
+    if (list == null) return null;
+    return list.map((item) => attendancemodel.fromJson(item)).toList();
+  }
+
+  ///this method will prevent the override of toString
+  String userAsString() {
+    return '#${this.id} ${this.name}';
+  }
+
+  ///this method will prevent the override of toString
+
+  ///custom comparing function to check if two users are equal
+  bool isEqual(attendancemodel model) {
+    return this?.id == model?.id;
+  }
+
+  @override
+  String toString() => name;
+}
+
 class project {
   String projectid;
   String projectname;

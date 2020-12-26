@@ -83,7 +83,10 @@ class attend extends State<attendance1> {
                           label: "Type",
                           onFind: (String filter) async {
                             var response = await Dio().get(
-                              AttendanceTypeAPI,
+                              AttendanceTypeAPI +
+                                  "DatabaseName=" +
+                                  Provider.of<Auth>(context, listen: false)
+                                      .databasename,
                               queryParameters: {"TempFields": filter},
                             );
                             var models =
@@ -225,17 +228,17 @@ class attend extends State<attendance1> {
                                         await dio.get(Attendancepostapi);
                                     response = await dio
                                         .post(Attendancepostapi, data: {
-                                      "UserId ": Provider.of<Auth>(context,
+                                      "UserId": Provider.of<Auth>(context,
                                               listen: false)
                                           .session,
                                       "DatabaseName": Provider.of<Auth>(context,
                                               listen: false)
                                           .databasename,
+                                      "pkEmpId": pkmpid,
+                                      "WType": dropdownValue,
                                       "AtDate": checkin,
                                       "TimeIn": checkin,
                                       "TimeOut": checkout,
-                                      "pkempid": pkmpid,
-                                      "WType": dropdownValue,
                                       "MBreak": mbreak,
                                       "WHour": whour,
                                       "Overtime": overtime,

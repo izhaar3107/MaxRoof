@@ -6,10 +6,10 @@ const loginapi = BASE_URL + '/loginapi';
 const companyapi = BASE_URL + '/CompanyAPI';
 const projectlistapi = BASE_URL + '/ProjectListAPI?';
 const employelist = BASE_URL + '/EmployeesListAPI?';
-const AttendanceTypeAPI =
-    BASE_URL + '/AttendanceTypeAPI?DatabaseName=IIERPSystem';
+const AttendanceTypeAPI = BASE_URL + '/AttendanceTypeAPI?';
 const Attendancepostapi = BASE_URL + '/AttendancePostAPI';
-
+const advancepostapi = BASE_URL + '/AdvanceDeductAPI?';
+const advancepostapi2 = BASE_URL + '/AdvancePostAPI';
 const baseURL = '';
 const noInternetMsg = 'Oops No Internet';
 

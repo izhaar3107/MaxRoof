@@ -5,6 +5,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:erp/constants.dart';
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'providers/projectlist.dart';
 import 'models/model.dart';
@@ -29,7 +30,12 @@ class attend extends State<attendance1> {
   attend(this.pkmpid);
   List data;
   String dropdownValue = 'One';
-  String checkin = '', checkout = '', mbreak = '', whour = '', overtime = '';
+  String checkin = '',
+      checkout = '',
+      mbreak = '',
+      whour = '',
+      overtime = '',
+      Res = '';
   Future<String> getData() async {
     var dio = Dio();
     Response response = await dio.get('');
@@ -247,7 +253,9 @@ class attend extends State<attendance1> {
                                       "WHour": whour,
                                       "Overtime": overtime,
                                     });
-                                    setState(() {});
+                                    setState(() {
+                                      Res = response.statusMessage;
+                                    });
                                   }
 
                                   getData2();
@@ -297,10 +305,18 @@ class attend extends State<attendance1> {
                                             "WHour": "0",
                                             "Overtime": "0",
                                           });
-                                          setState(() {});
+                                          setState(() {
+                                            Res =
+                                                response.statusCode.toString();
+                                          });
                                         }
 
                                         getData2();
+                                        Fluttertoast.showToast(
+                                          msg: Res,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                        );
                                       },
                                     )
                                   ])

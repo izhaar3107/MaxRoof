@@ -76,6 +76,12 @@ class project_list extends StatelessWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
+                      subtitle: Customtext(
+                        text: 'City : ' + course.city + '\n' + course.sdate,
+                        colors: kTextColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                       trailing: IconButton(
                         icon: Icon(Icons.arrow_forward_ios),
                         color: Colors.grey,
@@ -198,7 +204,10 @@ class HomePageState extends State<second> {
                                           ));
                                     },
                                     title: Customtext(
-                                      text: 'Employee Name:' +
+                                      text: 'Employee code: ' +
+                                          data[index]["EmpCode"] +
+                                          '\n' +
+                                          'Employee Name:' +
                                           data[index]["Employee"],
                                       colors: kTextColor,
                                       fontSize: 16,

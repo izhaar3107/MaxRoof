@@ -49,7 +49,7 @@ class attend extends State<advancepost> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Employe ID " + pkmpid.toString()),
+        title: Text("Employe ID" + pkmpid.toString()),
       ),
       body: Container(
         margin: EdgeInsets.all(8.0),
@@ -104,7 +104,7 @@ class attend extends State<advancepost> {
                         TextFormField(
                           style: TextStyle(fontSize: 16),
                           decoration: getInputDecoration(
-                            'Advance Amount: ',
+                            'Advance Amount:',
                             Icons.ten_k,
                           ),
                           validator: (value) {

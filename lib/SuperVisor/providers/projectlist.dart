@@ -58,9 +58,11 @@ class projectprovider with ChangeNotifier {
     final List<project> loadedCourses = [];
     extractedData.forEach((courseData) {
       loadedCourses.add(project(
-        projectid: (courseData['pkPrjId']),
-        projectname: (courseData['Project']),
-      ));
+          projectid: (courseData['pkPrjId']),
+          projectname: (courseData['Project']),
+          sdate: (courseData['SDate']),
+          city: (courseData['City'])));
+
       // print(catData['name']);
     });
     return loadedCourses;

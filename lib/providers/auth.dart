@@ -14,6 +14,9 @@ class Auth with ChangeNotifier {
   String _session;
   String _role;
   String _databasename;
+  String _profilePic;
+  String _EmpCode;
+  String _Employee;
 
   User _user;
 
@@ -44,6 +47,27 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String get profilePic {
+    if (_profilePic != null) {
+      return _profilePic;
+    }
+    return null;
+  }
+
+  String get Employee {
+    if (_Employee != null) {
+      return _Employee;
+    }
+    return null;
+  }
+
+  String get EmpCode {
+    if (_EmpCode != null) {
+      return _EmpCode;
+    }
+    return null;
+  }
+
   User get user {
     return _user;
   }
@@ -64,6 +88,9 @@ class Auth with ChangeNotifier {
         _session = responseData['pkEmpId'];
         _role = "Supervisor";
         _databasename = "$DatabaseName";
+        _Employee = responseData['Employee'];
+        _EmpCode = responseData['EmpCode'];
+        _profilePic = responseData['profilePic'];
 
         final loadedUser = User(
           userId: responseData['pkEmpId'],
@@ -79,6 +106,9 @@ class Auth with ChangeNotifier {
           'user': jsonEncode(_user),
           'role': _role,
           'databasename': _databasename,
+          'Employee': _Employee,
+          'EmpCode': _EmpCode,
+          'profilePic': _profilePic,
         });
         prefs.setString('userData', userData);
         print(userData);
@@ -101,6 +131,9 @@ class Auth with ChangeNotifier {
     _session = extractedUserData['token'];
     _role = extractedUserData['role'];
     _databasename = extractedUserData['databasename'];
+    _EmpCode = extractedUserData['EmpCode'];
+    _Employee = extractedUserData['Employee'];
+    _profilePic = extractedUserData['profilePic'];
 
     // print(jsonDecode(extractedUserData['user']));
     Map userMap = jsonDecode(extractedUserData['user']);
@@ -115,6 +148,9 @@ class Auth with ChangeNotifier {
     _session = null;
     _role = null;
     _databasename = null;
+    _Employee = null;
+    _EmpCode = null;
+    _profilePic = null;
     // _user = null;
     notifyListeners();
     final prefs = await SharedPreferences.getInstance();

@@ -60,7 +60,7 @@ class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (Provider.of<Auth>(context, listen: false).session == null) {
-      return OnboardingScreen();
+      return AuthScreen();
     } else if (Provider.of<Auth>(context, listen: false).role == 'Supervisor') {
       return Supervisor();
     } else if (Provider.of<Auth>(context, listen: false).role == '') {

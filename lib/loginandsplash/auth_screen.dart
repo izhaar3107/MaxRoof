@@ -44,7 +44,7 @@ class AuthScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(vertical: 4.0, horizontal: 94.0),
                     child: Text(
-                      ' Login',
+                      'Login',
                       style: TextStyle(
                         color: kTextColor,
                         fontSize: 30,
@@ -154,23 +154,6 @@ class _AuthCardState extends State<AuthCard> {
                   _authData['email'] = value;
                 },
               ),
-              DropdownSearch<companymodel>(
-                label: "Select Company",
-                onFind: (String filter) async {
-                  var response = await Dio().get(
-                    companyapi,
-                    queryParameters: {"DatabaseName": filter},
-                  );
-                  var models = companymodel.fromJsonList(response.data);
-                  return models;
-                },
-                onChanged: (companymodel data) {
-                  print(data);
-                },
-                onSaved: (companymodel data) {
-                  _authData['DatabaseName'] = data.toString();
-                },
-              ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -183,6 +166,23 @@ class _AuthCardState extends State<AuthCard> {
                 controller: _passwordController,
                 onSaved: (value) {
                   _authData['password'] = value;
+                },
+              ),
+              DropdownSearch<companymodel>(
+                label: "Select Company",
+                onFind: (String filter) async {
+                  var response = await Dio().get(
+                    companyapi,
+                    queryParameters: {"DatabaseName": filter},
+                  );
+                  var models = companymodel.fromJsonList(response.data);
+                  return models;
+                },
+                onChanged: (companymodel data) {
+                  print(data.companyname);
+                },
+                onSaved: (companymodel data) {
+                  _authData['DatabaseName'] = data.companyname.toString();
                 },
               ),
               SizedBox(

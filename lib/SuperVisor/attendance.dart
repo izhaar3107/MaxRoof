@@ -29,7 +29,7 @@ class attend extends State<attendance1> {
   attend(this.pkmpid);
   List data;
   String dropdownValue = 'One';
-  String checkin, checkout, mbreak, whour, overtime;
+  String checkin = '', checkout = '', mbreak = '', whour = '', overtime = '';
   Future<String> getData() async {
     var dio = Dio();
     Response response = await dio.get('');
@@ -105,8 +105,11 @@ class attend extends State<attendance1> {
                             if (dropdownValue == 'Present' ||
                                 dropdownValue == 'Half Day')
                               FlatButton(
-                                child: Text(
-                                    "Click here to select Check IN & OUT TIME"),
+                                child: OutlineButton(
+                                  child: Text("Select Date & Time"),
+                                  borderSide: BorderSide(color: Colors.blue),
+                                  shape: StadiumBorder(),
+                                ),
                                 onPressed: () {
                                   DateTimeRangePicker(
                                       startText: "From",
@@ -114,14 +117,15 @@ class attend extends State<attendance1> {
                                       doneText: "Yes",
                                       cancelText: "Cancel",
                                       interval: 5,
-                                      initialStartTime: DateTime.now(),
-                                      initialEndTime: DateTime.now()
-                                          .add(Duration(days: 20)),
+                                      initialStartTime:
+                                          DateTime.now().add(Duration(days: 0)),
+                                      initialEndTime:
+                                          DateTime.now().add(Duration(days: 0)),
                                       mode: DateTimeRangePickerMode.dateAndTime,
                                       minimumTime: DateTime.now()
                                           .subtract(Duration(days: 5)),
                                       maximumTime: DateTime.now()
-                                          .add(Duration(days: 25)),
+                                          .subtract(Duration(days: 0)),
                                       use24hFormat: true,
                                       onConfirm: (start, end) {
                                         setState(() {
@@ -277,8 +281,7 @@ class attend extends State<attendance1> {
                                               await dio.get(Attendancepostapi);
                                           response = await dio
                                               .post(Attendancepostapi, data: {
-                                            "UserId ": Provider.of<Auth>(
-                                                    context,
+                                            "UserId": Provider.of<Auth>(context,
                                                     listen: false)
                                                 .session,
                                             "DatabaseName": Provider.of<Auth>(

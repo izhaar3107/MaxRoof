@@ -3,14 +3,16 @@ import 'package:flutter/foundation.dart';
 class companymodel {
   final String id;
   final String name;
+  final String companyname;
 
-  companymodel({this.id, this.name});
+  companymodel({this.id, this.name, this.companyname});
 
   factory companymodel.fromJson(Map<String, dynamic> json) {
     if (json == null) return null;
     return companymodel(
       id: json["pkBookId"],
-      name: json["DatabaseName"],
+      name: json["BookName"],
+      companyname: json["DatabaseName"],
     );
   }
 
@@ -21,7 +23,7 @@ class companymodel {
 
   ///this method will prevent the override of toString
   String userAsString() {
-    return '#${this.id} ${this.name}';
+    return '#${this.id} ${this.name} ${this.companyname}';
   }
 
   ///this method will prevent the override of toString
@@ -33,6 +35,7 @@ class companymodel {
 
   @override
   String toString() => name;
+  String toString2() => companyname;
 }
 
 class attendancemodel {
@@ -108,6 +111,12 @@ class advancemodel {
 class project {
   String projectid;
   String projectname;
+  String sdate;
+  String city;
 
-  project({@required this.projectid, @required this.projectname});
+  project(
+      {@required this.projectid,
+      @required this.projectname,
+      @required this.city,
+      @required this.sdate});
 }

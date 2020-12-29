@@ -1,6 +1,8 @@
 import 'package:erp/SuperVisor/dashboard.dart';
 import 'package:erp/SuperVisor/projectlist.dart';
 import 'package:erp/SuperVisor/advance.dart';
+import 'package:erp/loginandsplash/auth_screen.dart';
+import 'package:erp/main.dart';
 import 'package:erp/providers/auth.dart';
 import 'package:provider/provider.dart';
 
@@ -38,8 +40,9 @@ class HomePageState extends State<Supervisor> {
       case 2:
         return new advance();
       case 3:
-        return Provider.of<Auth>(context, listen: false).logout().then((_) =>
-            Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false));
+        return Provider.of<Auth>(context, listen: false)
+            .logout()
+            .then((_) => main());
       default:
         return new Text("Error");
     }
@@ -73,7 +76,13 @@ class HomePageState extends State<Supervisor> {
         child: new Column(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-                accountName: new Text(""), accountEmail: null),
+                accountName: new Text(
+                    Provider.of<Auth>(context, listen: false).Employee),
+                currentAccountPicture: Image.network(
+                    'http://maxroof.theiis.com' +
+                        Provider.of<Auth>(context, listen: false).profilePic),
+                accountEmail:
+                    Text(Provider.of<Auth>(context, listen: false).role)),
             new Column(children: drawerOptions)
           ],
         ),

@@ -1,6 +1,9 @@
 import 'package:erp/SuperVisor/dashboard.dart';
+import 'package:erp/leave.dart';
+import 'file:///I:/Flutter/ERP/erp/lib/profile.dart';
 import 'package:erp/SuperVisor/projectlist.dart';
 import 'package:erp/SuperVisor/advance.dart';
+import 'file:///I:/Flutter/ERP/erp/lib/salaryslip.dart';
 import 'package:erp/loginandsplash/auth_screen.dart';
 import 'package:erp/main.dart';
 import 'package:erp/providers/auth.dart';
@@ -16,9 +19,13 @@ class DrawerItem {
 
 class Supervisor extends StatefulWidget {
   final drawerItems = [
-    new DrawerItem("Profile", Icons.rss_feed),
+    new DrawerItem("Dashboard", Icons.rss_feed),
     new DrawerItem("Attendance", Icons.local_pizza),
     new DrawerItem("Advance", Icons.info),
+    new DrawerItem("Projects", Icons.info),
+    new DrawerItem("Profile", Icons.info),
+    new DrawerItem("Leave", Icons.info),
+    new DrawerItem("Salary slips", Icons.info),
     new DrawerItem("Logout", Icons.info)
   ];
 
@@ -40,6 +47,14 @@ class HomePageState extends State<Supervisor> {
       case 2:
         return new advance();
       case 3:
+        return new projectlist();
+      case 4:
+        return new profile();
+      case 5:
+        return new leave();
+      case 6:
+        return new salaryslip();
+      case 7:
         return Provider.of<Auth>(context, listen: false)
             .logout()
             .then((_) => main());

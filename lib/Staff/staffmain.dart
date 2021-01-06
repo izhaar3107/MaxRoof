@@ -1,168 +1,109 @@
-import 'package:flutter/material.dart';
+import 'package:erp/Marketer/leads.dart';
+import 'package:erp/SuperVisor/dashboard.dart';
+import 'package:erp/leave.dart';
+import 'file:///I:/Flutter/ERP/erp/lib/profile.dart';
+import 'package:erp/SuperVisor/projectlist.dart';
+import 'package:erp/SuperVisor/advance.dart';
+import 'file:///I:/Flutter/ERP/erp/lib/salaryslip.dart';
+import 'package:erp/loginandsplash/auth_screen.dart';
+import 'package:erp/main.dart';
+import 'package:erp/providers/auth.dart';
 import 'package:provider/provider.dart';
-import '../loginandsplash/login_screen.dart';
-import '../constants.dart';
 
-import 'account_screen.dart';
-import '../providers/auth.dart';
+import 'package:flutter/material.dart';
 
-class Staff extends StatefulWidget {
-  @override
-  _TabsScreenState createState() => _TabsScreenState();
+class DrawerItem {
+  String title;
+  IconData icon;
+  DrawerItem(this.title, this.icon);
 }
 
-class _TabsScreenState extends State<Staff> {
-  List<Widget> _pages = [
-    LoginScreen(),
-    LoginScreen(),
+class Staff extends StatefulWidget {
+  final drawerItems = [
+    new DrawerItem("Dashboard", Icons.rss_feed),
+    new DrawerItem("Job work", Icons.local_pizza),
+    new DrawerItem("Profile", Icons.info),
+    new DrawerItem("Leave", Icons.info),
+    new DrawerItem("Salary slips", Icons.info),
+    new DrawerItem("Logout", Icons.info)
   ];
-  var _isInit = true;
-  var _isLoading = false;
-
-  int _selectedPageIndex = 0;
-  bool _isSearching = false;
-  final searchController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-    // Provider.of<Auth>(context).tryAutoLogin().then((_) {});
+  State<StatefulWidget> createState() {
+    return new HomePageState();
   }
+}
 
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      setState(() {
-        _isLoading = true;
-      });
+class HomePageState extends State<Staff> {
+  int _selectedDrawerIndex = 0;
 
-      final _isAuth = Provider.of<Auth>(context, listen: false).isAuth;
-
-      if (_isAuth) {
-        _pages = [
-          AccountScreen(),
-        ];
-      }
+  _getDrawerItemWidget(int pos) {
+    switch (pos) {
+      case 0:
+        return new dashboard();
+      case 1:
+        return new leadslist();
+      case 2:
+      //return new quotations();
+      case 3:
+      //return new sales();
+      case 4:
+      //return new followups();
+      case 4:
+        return new profile();
+      case 5:
+        return new leave();
+      case 6:
+        return new salaryslip();
+      case 7:
+        return Provider.of<Auth>(context, listen: false)
+            .logout()
+            .then((_) => main());
+      default:
+        return new Text("Error");
     }
-    _isInit = false;
-    super.didChangeDependencies();
   }
 
-  void _handleSubmitted(String value) {
-    final searchText = searchController.text;
-    if (searchText.isEmpty) {
-      return;
-    }
-
-    searchController.clear();
-
-    // print(searchText);
-  }
-
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
-  }
-
-  void _showFilterModal(BuildContext ctx) {
-    showModalBottomSheet(
-      context: ctx,
-      isScrollControlled: true,
-      builder: (_) {},
-    );
+  _onSelectItem(int index) {
+    setState(() => _selectedDrawerIndex = index);
+    Navigator.of(context).pop(); // close the drawer
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:Text("Staff"),
-        backgroundColor: Colors.lightBlue,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(
-                Icons.search,
-                color: kSecondaryColor,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isSearching = !_isSearching;
-                });
-              }),
-        ],
+    var drawerOptions = <Widget>[];
+    for (var i = 0; i < widget.drawerItems.length; i++) {
+      var d = widget.drawerItems[i];
+      drawerOptions.add(new ListTile(
+        leading: new Icon(d.icon),
+        title: new Text(d.title),
+        selected: i == _selectedDrawerIndex,
+        onTap: () => _onSelectItem(i),
+      ));
+    }
+
+    return new Scaffold(
+      appBar: new AppBar(
+        // here we display the title corresponding to the fragment
+        // you can instead choose to have a static title
+        title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
       ),
-      drawer: Drawer(
-        child: ListView(
+      drawer: new Drawer(
+        child: new Column(
           children: <Widget>[
-            FutureBuilder(
-              builder: (ctx, dataSnapshot) {
-                if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else {
-                  if (dataSnapshot.error != null) {
-                    //error
-                    return Center(
-                      child: Text('Error Occured'),
-                    );
-                  } else {
-                    return Consumer<Auth>(builder: (context, authData, child) {
-                      final user = authData.user;
-                      return SingleChildScrollView(
-                        child: Container(
-                          width: double.infinity,
-                          child: UserAccountsDrawerHeader(
-                            accountEmail: Text(""),
-                            currentAccountPicture: CircleAvatar(
-                              backgroundColor: Theme.of(context).platform ==
-                                      TargetPlatform.iOS
-                                  ? Colors.blue
-                                  : Colors.white,
-                              child: CircleAvatar(
-                                radius: 50,
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    });
-                  }
-                }
-              },
-            ),
-            ListTile(
-                title: Text("Profile"),
-                trailing: Icon(Icons.arrow_forward),
-                onTap: () {
-                  AccountScreen();
-                }),
-            ListTile(
-              title: Text("Attendance"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Advance"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Downloads"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            ListTile(
-              title: Text("Logout"),
-              trailing: Icon(Icons.arrow_forward),
-            ),
+            new UserAccountsDrawerHeader(
+                accountName: new Text(
+                    Provider.of<Auth>(context, listen: false).Employee),
+                currentAccountPicture: Image.network(
+                    'http://maxroof.theiis.com' +
+                        Provider.of<Auth>(context, listen: false).profilePic),
+                accountEmail:
+                    Text(Provider.of<Auth>(context, listen: false).role)),
+            new Column(children: drawerOptions)
           ],
         ),
       ),
-      body: _pages[_selectedPageIndex],
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showFilterModal(context),
-        child: Icon(Icons.filter_list),
-        backgroundColor: kDarkButtonBg,
-      ),
+      body: _getDrawerItemWidget(_selectedDrawerIndex),
     );
   }
 }

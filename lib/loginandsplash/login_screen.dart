@@ -13,9 +13,7 @@ class LoginScreen extends StatelessWidget {
             height: 130,
           ),
           Center(),
-          SizedBox(
-            height: 10,
-          ),
+          SizedBox(height: 10,),
           Center(
             child: RaisedButton(
               onPressed: () {
@@ -25,13 +23,13 @@ class LoginScreen extends StatelessWidget {
                 'Sign In',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              color: kBlueColor,
+              color: kMaroonColor,
               textColor: Colors.white,
               padding: EdgeInsets.symmetric(horizontal: 150, vertical: 15),
-              splashColor: Colors.blueAccent,
+              splashColor: Colors.redAccent[700],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(7.0),
-                side: BorderSide(color: kBlueColor),
+                side: BorderSide(color: kMaroonColor),
               ),
             ),
           ),

@@ -1,15 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../utilities/styles.dart';
 import 'package:http/http.dart' as http;
-
 import 'auth_screen.dart';
-import 'login_screen.dart';
-import 'login_screen.dart';
-import 'login_screen.dart';
+
 
 class OnboardingScreen extends StatefulWidget {
   @override

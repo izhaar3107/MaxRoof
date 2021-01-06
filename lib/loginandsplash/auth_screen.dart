@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-
 import '../SuperVisor/models/common_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,13 +19,6 @@ class AuthScreen extends StatelessWidget {
     // final transformConfig = Matrix4.rotationZ(-8 * pi / 180);
     // transformConfig.translate(-10.0);
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: kSecondaryColor, //change your color here
-        ),
-        title: Text("ERP"),
-        backgroundColor: kBackgroundColor,
-      ),
       // resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
@@ -143,9 +135,9 @@ class _AuthCardState extends State<AuthCard> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
-                  labelText: 'Email Address',
+                  labelText: 'Username',
                   prefixIcon: Icon(
-                    Icons.mail_outline,
+                    Icons.supervised_user_circle_outlined,
                     color: Colors.grey,
                   ), // myIcon is a 48px-wide widget.
                 ),
@@ -153,6 +145,9 @@ class _AuthCardState extends State<AuthCard> {
                 onSaved: (value) {
                   _authData['email'] = value;
                 },
+              ),
+              SizedBox(
+                height: 20,
               ),
               TextFormField(
                 decoration: InputDecoration(
@@ -167,6 +162,9 @@ class _AuthCardState extends State<AuthCard> {
                 onSaved: (value) {
                   _authData['password'] = value;
                 },
+              ),
+              SizedBox(
+                height: 20,
               ),
               DropdownSearch<companymodel>(
                 label: "Select Company",
@@ -186,7 +184,7 @@ class _AuthCardState extends State<AuthCard> {
                 },
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               if (_isLoading)
                 CircularProgressIndicator()
@@ -201,12 +199,12 @@ class _AuthCardState extends State<AuthCard> {
                     onPressed: _submit,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(7.0),
-                      side: BorderSide(color: kBlueColor),
+                      side: BorderSide(color: kMaroonColor),
                     ),
-                    splashColor: Colors.blueAccent,
+                    splashColor: Colors.redAccent[700],
                     padding:
                         EdgeInsets.symmetric(horizontal: 50.0, vertical: 20),
-                    color: kBlueColor,
+                    color: kMaroonColor,
                     textColor: Colors.white,
                   ),
                 ),

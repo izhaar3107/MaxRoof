@@ -4,7 +4,7 @@ import 'package:erp/loginandsplash/auth_screen.dart';
 import 'package:erp/loginandsplash/intro.dart';
 import 'package:erp/loginandsplash/login_screen.dart';
 import 'package:erp/SuperVisor/supervisormain.dart';
-
+import 'package:erp/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
@@ -22,7 +22,7 @@ class splash extends StatelessWidget {
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: maroon,
       ),
       routes: {
         '/supervisor': (ctx) => Supervisor(),
@@ -45,7 +45,7 @@ class Splash2 extends StatelessWidget {
       routeName: '/splash',
       navigateAfterSeconds: new SecondScreen(),
       title: new Text(
-        'ERP MAX',
+        'Maxroof',
         textScaleFactor: 2,
       ),
       image: new Image.asset('assets/applogo.png'),

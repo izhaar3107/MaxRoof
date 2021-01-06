@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
-                  title: 'ERP',
+                  title: 'Maxroof',
                   theme: ThemeData(
                     primarySwatch: Colors.blue,
                     accentColor: kDarkButtonBg,

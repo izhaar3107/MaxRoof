@@ -1,20 +1,39 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:dio/dio.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:erp/constants.dart';
-import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'providers/projectlist.dart';
 import 'models/model.dart';
-
 import 'models/common_functions.dart';
 import 'package:http/http.dart' as http;
 import 'package:erp/SuperVisor/projectlist.dart';
 import 'package:erp/providers/auth.dart';
 import 'widgets/customtext.dart';
+
+void main() => runApp(attendance1());
+
+class attendance extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'DateTimePicker',
+      home: attendance1(),
+      localizationsDelegates: [
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [Locale('en', 'IN')],
+    );
+  }
+}
 
 class attendance1 extends StatefulWidget {
   final String text;
@@ -28,6 +47,16 @@ class attendance1 extends StatefulWidget {
 class attend extends State<attendance1> {
   String pkmpid;
   attend(this.pkmpid);
+  GlobalKey<FormState> _oFormKey = GlobalKey<FormState>();
+  TextEditingController _controller2;
+  TextEditingController _controller3;
+  //String _initialValue;
+  String _valueChanged2 = '';
+  String _valueToValidate2 = '';
+  String _valueSaved2 = '';
+  String _valueChanged3 = '';
+  String _valueToValidate3 = '';
+  String _valueSaved3 = '';
   List data;
   String dropdownValue = 'One';
   String checkin = '',
@@ -36,26 +65,35 @@ class attend extends State<attendance1> {
       whour = '',
       overtime = '',
       Res = '';
-  Future<String> getData() async {
-    var dio = Dio();
-    Response response = await dio.get('');
-
-    setState(() {});
-  }
-
   @override
   void initState() {
     super.initState();
-    this.getData();
+    Intl.defaultLocale = 'en_IN';
+    //_initialValue = DateTime.now().toString();
+    _controller2 = TextEditingController(text: DateTime.now().toString());
+    _controller3 = TextEditingController(text: DateTime.now().toString());
+    String lsHour = TimeOfDay.now().hour.toString().padLeft(2, '0');
+    String lsMinute = TimeOfDay.now().minute.toString().padLeft(2, '0');
+    _getValue();
+  }
+
+  /// This implementation is just to simulate a load data behavior
+  /// from a data base sqlite or from a API
+  Future<void> _getValue() async {
+    await Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        //_initialValue = '2000-10-22 14:30';
+        _controller2.text = '';
+        _controller3.text = '';
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    String _authData;
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("Employe ID " + pkmpid.toString()),
+        title: Text('Flutter DateTimePicker Demo'),
       ),
       body: Container(
         margin: EdgeInsets.all(8.0),
@@ -110,33 +148,72 @@ class attend extends State<attendance1> {
                           children: <Widget>[
                             if (dropdownValue == 'Present' ||
                                 dropdownValue == 'Half Day')
-                              FlatButton(
-                                child: OutlineButton(
-                                  child: Text("Select Date & Time"),
-                                  borderSide: BorderSide(color: Colors.blue),
-                                  shape: StadiumBorder(),
-                                ),
-                                onPressed: () {
-                                  DateTimeRangePicker(
-                                      startText: "From",
-                                      endText: "To",
-                                      doneText: "Yes",
-                                      cancelText: "Cancel",
-                                      interval: 5,
-                                      initialStartTime:
-                                          DateTime.now().add(Duration(days: 0)),
-                                      initialEndTime:
-                                          DateTime.now().add(Duration(days: 0)),
-                                      mode: DateTimeRangePickerMode.dateAndTime,
-                                      minimumTime: DateTime.now()
-                                          .subtract(Duration(days: 5)),
-                                      maximumTime: DateTime.now()
-                                          .subtract(Duration(days: 0)),
-                                      use24hFormat: true,
-                                      onConfirm: (start, end) {
+                              Form(
+                                key: _oFormKey,
+                                child: Column(
+                                  children: <Widget>[
+                                    DateTimePicker(
+                                      type: DateTimePickerType.dateTime,
+                                      dateMask: 'd MMMM, yyyy - hh:mm a',
+                                      controller: _controller2,
+                                      //initialValue: _initialValue,
+                                      firstDate: DateTime.now().subtract(
+                                          Duration(
+                                              days: 5, hours: 0, minutes: 00)),
+                                      lastDate: DateTime.now(),
+                                      //icon: Icon(Icons.event),
+                                      dateLabelText: 'Date Time',
+                                      use24HourFormat: false,
+                                      onChanged: (val) =>
+                                          setState(() => _valueChanged2 = val),
+                                      validator: (val) {
+                                        setState(() => _valueToValidate2 = val);
+                                        return null;
+                                      },
+                                      onSaved: (val) =>
+                                          setState(() => _valueSaved2 = val),
+                                    ),
+                                    DateTimePicker(
+                                      type: DateTimePickerType.dateTime,
+                                      dateMask: 'd MMMM, yyyy - hh:mm a',
+                                      controller: _controller3,
+                                      //initialValue: _initialValue,
+                                      firstDate: DateTime.now().subtract(
+                                          Duration(
+                                              days: 5, hours: 0, minutes: 00)),
+                                      lastDate: DateTime.now(),
+                                      //icon: Icon(Icons.event),
+                                      dateLabelText: 'Date Time',
+                                      use24HourFormat: false,
+                                      onChanged: (val) =>
+                                          setState(() => _valueChanged3 = val),
+                                      validator: (val) {
+                                        setState(() => _valueToValidate3 = val);
+                                        return null;
+                                      },
+                                      onSaved: (val) =>
+                                          setState(() => _valueSaved3 = val),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Text(
+                                      'DateTimePicker data value onChanged:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    SelectableText(_valueChanged2 ?? ''),
+                                    SelectableText(_valueChanged3 ?? ''),
+                                    SizedBox(height: 10),
+                                    RaisedButton(
+                                      onPressed: () {
+                                        final loForm = _oFormKey.currentState;
+
+                                        if (loForm.validate()) {
+                                          loForm.save();
+                                        }
                                         setState(() {
-                                          checkin = start.toString();
-                                          checkout = end.toString();
+                                          checkin = _valueChanged2.toString();
+                                          checkout = _valueChanged3.toString();
 
                                           Future<String> getData2() async {
                                             var dio = Dio();
@@ -158,8 +235,46 @@ class attend extends State<attendance1> {
 
                                           getData2();
                                         });
-                                      }).showPicker(context);
-                                },
+                                      },
+                                      child: Text('Submit'),
+                                    ),
+                                    SizedBox(height: 30),
+                                    Text(
+                                      'DateTimePicker data value validator:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    SelectableText(_valueToValidate2 ?? ''),
+                                    SelectableText(_valueToValidate3 ?? ''),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      'DateTimePicker data value onSaved:',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 10),
+                                    SelectableText(_valueSaved2 ?? ''),
+                                    SelectableText(_valueSaved3 ?? ''),
+                                    SizedBox(height: 20),
+                                    RaisedButton(
+                                      onPressed: () {
+                                        final loForm = _oFormKey.currentState;
+                                        loForm.reset();
+
+                                        setState(() {
+                                          _valueChanged2 = '';
+                                          _valueChanged3 = '';
+                                          _valueToValidate2 = '';
+                                          _valueToValidate3 = '';
+                                          _valueSaved2 = '';
+                                          _valueSaved3 = '';
+                                        });
+                                      },
+                                      child: Text('Reset'),
+                                    ),
+                                  ],
+                                ),
                               ),
                             if (dropdownValue == 'Present' ||
                                 dropdownValue == 'Half Day')
